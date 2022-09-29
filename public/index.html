@@ -1,135 +1,31 @@
 <!DOCTYPE html>
 <html lang="ko-KR">
 
-  <head>
-    <meta charset="UTF-8" />
-    <title>스네이크 게임(Snake Game)</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="뱀(Snake) 게임은 1970년대에 처음 나온 오래된 게임 장르로 오늘날까지도 수많은 변종이 나오는 인기 장르 게임입니다. 매우 단순한 게임 규칙과 달리 깊게 파고들면 끝이 없다는 폐인 양성 게임입니다." />
-    <link rel="stylesheet" href="./assets/styles/main.css" />
-    <link rel="icon" href="assets/images/logo.png" />
-    <script type="module" src="assets/scripts/main.js"></script>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>스네이크 게임(Snake Game)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="뱀(Snake) 게임은 1970년대에 처음 나온 오래된 게임 장르로 오늘날까지도 수많은 변종이 나오는 인기 장르 게임입니다. 매우 단순한 게임 규칙과 달리 깊게 파고들면 끝이 없다는 폐인 양성 게임입니다." />
+  <link rel="stylesheet" href="./assets/styles/main.css" />
+  <link rel="icon" href="assets/images/logo.png" />
+  <script type="module" src="assets/scripts/main.js"></script>
+</head>
 
-  <body class="Game">
-    <div class="App">
-      <h1 class="Title" aria-label="스네이크 게임">snake game</h1>
-      <div class="ButtonGroup">
-        <button type="button" class="Button Button--start">start</button>
-        <button type="button" class="Button Button--stop" disabled>stop</button>
-      </div>
-      <h2 class="ScoreDisplay">
-        <span aria-label="현재 스코어">score</span> <span class="Score">0</span>
-      </h2>
-      <div class="Grid bg-slate-200">
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Snake"></div>
-        <div class="Snake"></div>
-        <div class="Snake"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Apple"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-        <div class="Square"></div>
-      </div>
-    </div>
-    <div class="GameElements" hidden>
-      <div class="Square"></div>
-      <div class="Snake"></div>
-      <div class="Snake Snake--head"></div>
-      <div class="Apple"></div>
-    </div>
-  </body>
+<body>
+  <h1 class="headline" title="스네이크 게임은 뱀이 벽이나 자기자신에 부딪히지 않고 안전하게 사과를 먹는 게임입니다. ">SNAKE GAME</h1>
+  <div class="ButtonGroup">
+    <button aria-label="시작 버튼" class="StartButton" type="button">START</button>
+    <button aria-label="종료 버튼" class="StopButton" type="button">STOP</button>
+  </div>
+  <div class="ScoreGroup">SCORE<output aria-label="나의 점수" class=" scoreNumber">0</output></div>
+  <div class="GameBox">
+    <div class="snake"></div>
+    <div class="snake"></div>
+    <div class="snake"></div>
+    <div class="apple"></div>
+  </div>
+
+</body>
 
 </html>
