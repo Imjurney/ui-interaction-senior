@@ -14,5 +14,10 @@
   "editor.quickSuggestions": {
     "strings": true
   },
+  "volar.style.defaultLanguage": "postcss",
+  "stylelint.enable": true,
+  "tailwindCSS.validate": true,
   "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
 }
