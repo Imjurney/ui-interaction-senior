@@ -12,20 +12,125 @@
   <script type="module" src="assets/scripts/main.js"></script>
 </head>
 
-<body>
-  <h1 class="headline" title="스네이크 게임은 뱀이 벽이나 자기자신에 부딪히지 않고 안전하게 사과를 먹는 게임입니다. ">SNAKE GAME</h1>
-  <div class="ButtonGroup">
-    <button aria-label="시작 버튼" class="StartButton" type="button">START</button>
-    <button aria-label="종료 버튼" class="StopButton" type="button">STOP</button>
+<body class="Game">
+  <div class="App">
+    <h1 class="Title" aria-label="스네이크 게임">snake game</h1>
+    <div class="ButtonGroup">
+      <button type="button" class="Button Button--start">start</button>
+      <button type="button" class="Button Button--stop" disabled>stop</button>
+    </div>
+    <h2 class="ScoreDisplay">
+      <span aria-label="현재 스코어">score</span> <span class="Score">0</span>
+    </h2>
+    <div class="Grid bg-slate-200">
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Snake"></div>
+      <div class="Snake"></div>
+      <div class="Snake"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Apple"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+      <div class="Square"></div>
+    </div>
   </div>
-  <div class="ScoreGroup">SCORE<output aria-label="나의 점수" class=" scoreNumber">0</output></div>
-  <div class="GameBox">
-    <div class="snake"></div>
-    <div class="snake"></div>
-    <div class="snake"></div>
-    <div class="apple"></div>
+  <div class="GameElements" hidden>
+    <div class="Square"></div>
+    <div class="Snake"></div>
+    <div class="Snake Snake--head"></div>
+    <div class="Apple"></div>
   </div>
-
 </body>
 
 </html>
