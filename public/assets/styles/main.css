@@ -637,16 +637,18 @@ video {
 }
 
 .Score {
-  font-weight: 800;
-}
-
-.ScoreDisplay {
   margin-top: 1rem;
   margin-bottom: 1rem;
   font-size: 1.25rem;
   line-height: 1.75rem;
   text-transform: uppercase;
 }
+
+.Display {
+  font-weight: 800;
+}
+
+/* 중첩규칙 */
 
 .Square {
   height: 1.25rem;

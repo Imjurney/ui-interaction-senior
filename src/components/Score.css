@@ -1,7 +1,8 @@
 .Score {
-  @apply font-extrabold;
-
-  &Display {
-    @apply my-4 text-xl uppercase;
-  }
+  @apply my-4 text-xl uppercase;
 }
+.Display {
+  @apply font-extrabold;
+}
+
+/* 중첩규칙 */
