@@ -1,4 +1,4 @@
-.Square {
+.SquareInGrid {
   @apply w-5 h-5 bg-slate-200 text-xs;
   @apply flex justify-center items-center;
 }

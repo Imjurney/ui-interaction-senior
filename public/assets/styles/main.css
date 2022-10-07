@@ -650,7 +650,7 @@ video {
 
 /* 중첩규칙 */
 
-.Square {
+.SquareInGrid {
   height: 1.25rem;
   width: 1.25rem;
   --tw-bg-opacity: 1;
