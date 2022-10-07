@@ -64,7 +64,7 @@ function drawSquares(squares = [], { showGridNumbers } = { showGridNumbers: true
       text(GridSquare, i)
     }
     append(gridElement, GridSquare);
-    return [...squares, drawSquares()];
+    return [...squares]
   }, SQUARE_TOTAL)
 
 
