@@ -2,8 +2,8 @@ const SQUARE_ROWS = 10;
 const SQUARE_COLS = 10;
 const SQUARE_TOTAL = SQUARE_ROWS * SQUARE_COLS;
 
-import { addClass, append, attr, create, getNode as $, hasClass, on, removeClass, text } from "../scripts/lib/dom/index.js";
-import { each, getRandom, getRandomMinMax, loop } from "./lib/utils/index.js";
+import { addClass, append, create, getNode as $, hasClass, on, removeClass, text } from "../scripts/lib/dom/index.js";
+import { each, getRandom, loop } from "./lib/utils/index.js";
 
 const CLASSES = {
   square: 'Square',
@@ -15,22 +15,25 @@ const CLASSES = {
 /* ------------------------------------------------------------ */
 const gridElement = $(`.${CLASSES.grid}`);
 const startButtonElement = $(".Button--start");
-const stopButtonElement = $(`.Button--stop`);
+const stopButtonElement = $(".Button--stop");
+const ScoreElement = $('.Score');
 
 let squares = [];
-let snake = [2, 1, 0];
+let snake = [];
 let gameStopId;
 let direction = 1;
 let speed = 1000;
 let appleIndex;
 let isStarting = false;
+let SPEED_RATIO = 0.9;
+let score = 0;
 
 const createSquare = () => {
   const square = create('div', { class: CLASSES.square })
   return square;
 }
 
-const drawSquares = ({ showGridNumber = true } = {}) => {
+const drawSquares = ({ showGridNumber = false } = {}) => {
   loop((i) => {
     const square = createSquare();
     if (showGridNumber) {
@@ -39,12 +42,9 @@ const drawSquares = ({ showGridNumber = true } = {}) => {
     squares.push(square);
     append(gridElement, square);
   }, SQUARE_TOTAL);
+
+
 }
-
-
-
-
-
 
 function init() {
   drawSquares();
@@ -56,6 +56,21 @@ const drawSnake = () => {
     addClass(squares[index], CLASSES.snake);
   });
 }
+const randomSnakeArray = () => {
+  let headIndex;
+  let restIndex;
+  do {
+    headIndex = getRandom(SQUARE_TOTAL - 1);
+    restIndex = headIndex % SQUARE_ROWS;
+  } while (restIndex < SQUARE_ROWS - 7 || restIndex > SQUARE_ROWS - 3);
+  let bodyIndex = headIndex - 1;
+  let tailIndex = headIndex - 2;
+  snake.push(headIndex, bodyIndex, tailIndex);
+  return [headIndex, bodyIndex, tailIndex]
+}
+
+
+
 
 const drawApple = () => {
   do {
@@ -71,34 +86,75 @@ const moveSnake = () => {
   snake.unshift(snake[0] + direction);
   let headIndex = snake[0];
   addClass(squares[headIndex], CLASSES.snake);
+  return { headIndex, tailIndex }
 }
 
 const moveAnimation = () => {
-  gameStopId = setTimeout(() => {
-    moveSnake();
-    moveAnimation();
-  }, speed);
-
+  if (isGameOver()) {
+    return gameOver();
+  }
+  let { headIndex, tailIndex } = moveSnake();
+  gameStopId = setTimeout(moveAnimation, speed);
+  if (hasClass(squares[headIndex], CLASSES.apple)) {
+    removeClass(squares[appleIndex], CLASSES.apple);
+    addClass(squares[tailIndex], CLASSES.snake);
+    snake.push(tailIndex);
+    ScoreUp();
+    speed *= SPEED_RATIO;
+    drawApple();
+  }
 }
 
 const stopAnimation = () => {
   clearTimeout(gameStopId);
 }
 
-
+function ScoreUp() {
+  score += 10;
+  text(ScoreElement, score)
+}
 
 
 function gameStart() {
+  randomSnakeArray();
   drawSnake();
   drawApple();
   moveAnimation();
   text(startButtonElement, 'RESTART');
+  startButtonElement.disabled = true;
   stopButtonElement.disabled = false;
 }
 
+
 function gameOver() {
-  console.log('gameOver');
+  alert('gameOver');
+  stopAnimation();
+  resetGame();
+
 }
+
+function resetGame() {
+  resetSquares();
+  resetScore();
+  snake = randomSnakeArray();
+  drawApple();
+  drawSnake();
+  text(startButtonElement, 'START');
+  startButtonElement.disabled = false;
+  stopButtonElement.disabled = true;
+}
+
+function resetSquares() {
+  each(squares, (square) => {
+    removeClass(square, CLASSES.apple, CLASSES.snake)
+  })
+}
+
+function resetScore() {
+  score = 0;
+  text(ScoreElement, score);
+}
+
 
 function gameRestart() {
   moveAnimation();
@@ -110,13 +166,17 @@ function handleGameStart() {
     isStarting = true;
   } else {
     gameRestart();
-    stopButtonElement.disabled = false;
   }
+  startButtonElement.disabled = true;
+  stopButtonElement.disabled = false;
 }
+
+
 function handleGameStop() {
   stopAnimation();
   console.log('gameStop');
   stopButtonElement.disabled = true;
+  startButtonElement.disabled = false;
 }
 
 
@@ -134,11 +194,33 @@ function handleKeyControl({ key }) {
     case 'left':
       if (direction === 1) return;
       direction = -1;
+      console.log(direction)
       break;
     case 'right':
       if (direction === -1) return;
       direction = 1;
+      console.log(direction)
+  }
+}
+function isGameOver() {
+  let headIndex = snake[0];
+  let nextHeadIndex = headIndex + direction;
+  switch (direction) {
+    case - SQUARE_COLS:
+      if (nextHeadIndex < 0) return true;
       break;
+    case SQUARE_COLS:
+      if (nextHeadIndex > SQUARE_TOTAL) return true;
+      break;
+    case -1:
+      if (headIndex % SQUARE_COLS === 0) return true;
+      break;
+    case 1:
+      if (headIndex % SQUARE_COLS === SQUARE_COLS - 1) return true;
+
+  }
+  if (hasClass(squares[nextHeadIndex], CLASSES.snake)) {
+    return true;
   }
 }
 
@@ -146,8 +228,8 @@ function handleKeyControl({ key }) {
 
 
 on(startButtonElement, 'click', handleGameStart);
-on(document, 'keyup', handleKeyControl);
 on(stopButtonElement, 'click', handleGameStop)
+on(document, 'keyup', handleKeyControl);
 
 
 
@@ -159,103 +241,5 @@ on(stopButtonElement, 'click', handleGameStop)
 
 
 
-
-// function isGameOver() {
-//   let headIndex = snake[0]
-//   // 벽의 위에 뱀 머리가 충돌
-//   // 벽의 아래에 뱀 머리가 충돌
-//   // 벽의 왼쪽에 뱀 머리가 충돌
-//   // 벽의 오른쪽에 뱀 머리가 충돌
-//   // 뱀의 몸통에 뱀 머리가 충돌
-//   switch (direction) {
-//     case -SQUARE_COLS:
-//       if (headIndex + direction < 0)
-//         return true;
-//       break;
-//     case SQUARE_COLS:
-//       if (headIndex + direction >= SQUARE_TOTAL)
-//         return true;
-//       break;
-//     case -1:
-//       if (headIndex % SQUARE_COLS === 0)
-//         return true;
-//       break;
-//     case 1:
-//       console.log(headIndex % SQUARE_COLS)
-//       console.log(SQUARE_COLS - 1)
-//       if (headIndex % SQUARE_COLS === SQUARE_COLS - 1)
-//         return true;
-//   }
-//   return false;
-// }
-
-// function gameOver(params) {
-//   gameStop();
-// }
-
-// function gameStart() {
-//   gameRestart();
-// }
-
-// function gameRestart() {
-//   move();
-// }
-
-// function gameStop() {
-//   clearTimeout(gameStopId);
-// }
-// function init() {
-//   drawSquares({ showGridNumbers: true })
-//   drawSnake();
-// }
-// init();
-
-// function handleGameStart() {
-//   if (!isStarting) {
-//     console.log('game start');
-//     gameStart();
-//     isStarting = true;
-//     text(startButtonElement, 'restart');
-//   } else {
-//     console.log('game restart');
-//     gameRestart();
-//   }
-
-//   startButtonElement.disabled = true;
-//   stopButtonElement.disabled = false;
-// }
-
-// function handleGameStop() {
-//   gameStop();
-//   startButtonElement.disabled = false;
-//   stopButtonElement.disabled = true;
-// }
-
-// function handleKeyControl({ key }) {
-//   key = key.replace(/arrow/i, '').toLowerCase();
-//   switch (key) {
-//     case 'up':
-//       if (direction === SQUARE_COLS) return;
-//       direction = -SQUARE_COLS;
-//       break;
-//     case 'down':
-//       if (direction === -SQUARE_COLS) return;
-//       direction = SQUARE_COLS;
-//       break;
-//     case 'left':
-//       if (direction === 1) return;
-//       direction = -1;
-//       break;
-//     case 'right':
-//       if (direction === -1) return;
-//       direction = 1;
-//       break;
-
-//   }
-//   console.log(direction)
-// }
-// on(startButtonElement, 'click', handleGameStart)
-// on(stopButtonElement, 'click', handleGameStop)
-// on(document, 'keyup', handleKeyControl)
 
 
